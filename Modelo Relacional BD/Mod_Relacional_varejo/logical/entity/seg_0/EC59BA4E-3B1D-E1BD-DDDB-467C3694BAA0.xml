@@ -1,0 +1,94 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="EC59BA4E-3B1D-E1BD-DDDB-467C3694BAA0" name="Produto">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:41:01 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Cod_Produto" id="C506E899-207D-4DB1-8079-7C960CC5ECE6">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:41:20 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Nome_Produto" id="7EBB16DC-4E51-0986-3DDA-0B58934C8C44">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:41:59 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Categoria_Produto" id="0E824518-A7FC-D3B1-0CC9-BF7DACF8FEF2">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:43:07 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Qtd_Estoque" id="83E4DB5F-E076-E436-B637-933A21F37695">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:43:19 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Preco_Produto" id="04574CB8-8B33-778E-C171-F923B1A93678">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:43:30 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Descricao_Produto" id="BD1139A4-9088-20A2-8CC6-9F71A37F4709">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:43:56 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="59804099-63DA-C644-6B23-CC337B4A1374" name="Produto PK">
+<createdBy>paulo</createdBy>
+<createdTime>2024-08-09 14:42:52 UTC</createdTime>
+<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
+<engineerTo>
+<item key="73B6CCBC-FA3C-DAB0-CB52-27ECB7411361" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C506E899-207D-4DB1-8079-7C960CC5ECE6</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

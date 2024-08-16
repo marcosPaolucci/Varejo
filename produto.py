@@ -15,7 +15,7 @@ class Produto:
         self.quantidade = self.quantidade - 1
         self.alerta_estoque_baixo()
 
-    def atualizar_estoque(self, num):
+    def atualizar_quantidade(self, num):
          self.quantidade = self.quantidade + num
          self.alerta_estoque_baixo()
 
@@ -35,10 +35,10 @@ print(tenis.quantidade)
 #print(dir(produto))
 tenis.remover_quantidade()
 print(tenis.quantidade)
-tenis.atualizar_estoque(10)
+tenis.atualizar_quantidade(10)
 print(tenis.quantidade)
-tenis.atualizar_estoque(-10)
+tenis.atualizar_quantidade(-10)
 print(tenis.quantidade)
-tenis.atualizar_estoque(-6)
+tenis.atualizar_quantidade(-6)
 tenis.atualizar_preço(600)
 print(tenis.preço)

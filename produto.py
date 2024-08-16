@@ -22,17 +22,23 @@ class Produto:
     def alerta_estoque_baixo(self):
         if self.quantidade < 5:
             print("Cuidado! Estoque baixo!")
+    
+    def atualizar_preço(self,num):
+        self.preço = num
+        print(f"Preço do produto {self.nome} alterado para {self.preço}")
 
 #OBS: podemos criar categoria eletronicos por exemplo como uma classe filha de produtos
 
-produto = Produto(1, "tenis de corrida", "calçado", 10, 500, "bom tenis", "Paraguai")
-produto.adicionar_estoque()
-print(produto.quantidade)
+tenis = Produto(1, "tenis de corrida", "calçado", 10, 500, "bom tenis", "Paraguai")
+tenis.adicionar_quantidade()
+print(tenis.quantidade)
 #print(dir(produto))
-produto.remover_estoque()
-print(produto.quantidade)
-produto.atualizar_estoque(10)
-print(produto.quantidade)
-produto.atualizar_estoque(-10)
-print(produto.quantidade)
-produto.atualizar_estoque(-6)
+tenis.remover_quantidade()
+print(tenis.quantidade)
+tenis.atualizar_estoque(10)
+print(tenis.quantidade)
+tenis.atualizar_estoque(-10)
+print(tenis.quantidade)
+tenis.atualizar_estoque(-6)
+tenis.atualizar_preço(600)
+print(tenis.preço)

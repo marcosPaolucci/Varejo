@@ -40,7 +40,7 @@ def remover_quantidade_estoque(codigo, quantidade):
             salvar_estoque()  # Salva o estoque após a remoção
             return
 
-def atualizar_produto_estoque(codigo, nova_quantidade):
+def alterar_quantidade_estoque(codigo, nova_quantidade):
     for item in estoque:
         if item['codigo'] == codigo:
             item['quantidade'] = nova_quantidade

@@ -1,4 +1,4 @@
-from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, atualizar_produto_estoque, exibir_estoque
+from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, alterar_quantidade_estoque, exibir_estoque
 
 class Produto:
     def __init__(self, codigo, nome, categoria, quantidade, preço, descricao, fornecedor):
@@ -22,7 +22,7 @@ class Produto:
 
     def atualizar_quantidade(self, num):
          self.quantidade = self.quantidade + num
-         atualizar_produto_estoque(self.codigo, self.quantidade)
+         alterar_quantidade_estoque(self.codigo, self.quantidade)
          self.alerta_estoque_baixo()
 
     def alerta_estoque_baixo(self):

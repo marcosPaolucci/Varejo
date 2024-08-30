@@ -5,7 +5,7 @@
     },
     {
         "codigo": "001",
-        "quantidade": 16
+        "quantidade": 19
     },
     {
         "codigo": "002",
@@ -13,6 +13,14 @@
     },
     {
         "codigo": "003",
-        "quantidade": 11
+        "quantidade": 8
+    },
+    {
+        "codigo": 3,
+        "quantidade": 10
+    },
+    {
+        "codigo": 10,
+        "quantidade": 101
     }
 ]

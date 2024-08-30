@@ -1,47 +1,34 @@
 import json
-from produto import Produto
+import os
 
-# Classe Categoria que cria subclasses e as armazena em um dicionário
 class Categoria:
-    subclasses = {}
+    arquivo_json = 'categorias.json'
 
-    def __init__(self, nome_categoria):
+    def __init__(self, nome_categoria, *atributos_adicionais):
         self.nome_categoria = nome_categoria
-        self.criar_subclasse()
+        self.atributos_adicionais = list(atributos_adicionais)
         self.salvar_categoria()
 
-    def criar_subclasse(self):
-        subclass = type(self.nome_categoria, (Produto,), {"categoria": self.nome_categoria})
-        Categoria.subclasses[self.nome_categoria] = subclass
-
     def salvar_categoria(self):
-        try:
-            with open("categorias.json", "r") as file:
-                data = json.load(file)
-        except FileNotFoundError:
-            data = {"categorias": []}
+        categorias = self.carregar_categorias()
 
-        if self.nome_categoria not in data["categorias"]:
-            data["categorias"].append(self.nome_categoria)
-            with open("categorias.json", "w") as file:
-                json.dump(data, file)
+        # Verifica se a categoria já existe para evitar duplicação
+        if not any(c['nome_categoria'] == self.nome_categoria for c in categorias):
+            categorias.append({
+                'nome_categoria': self.nome_categoria,
+                'atributos_adicionais': self.atributos_adicionais
+            })
 
+            with open(self.arquivo_json, 'w') as f:
+                json.dump(categorias, f, indent=4)
+        else:
+            print(f'Categoria "{self.nome_categoria}" já existe.')
+    
     @classmethod
-    def carregar_categorias(cls):
-        try:
-            with open("categorias.json", "r") as file:
-                data = json.load(file)
-                for nome_categoria in data["categorias"]:
-                    cls(nome_categoria)
-        except FileNotFoundError:
-            print("Nenhuma categoria encontrada. Criando novo arquivo de categorias.")
-            with open("categorias.json", "w") as file:
-                json.dump({"categorias": []}, file)
-
-    @classmethod
-    def get_subclasse(cls, nome_categoria):
-        return cls.subclasses.get(nome_categoria)
-
-# Inicializando o sistema e carregando as categorias do JSON
-Categoria.carregar_categorias()
+    def carregar_categorias(self):
+        if os.path.exists(self.arquivo_json):
+            with open(self.arquivo_json, 'r') as f:
+                return json.load(f)
+        else:
+            return []
 

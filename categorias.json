@@ -1,1 +1,40 @@
-{"categorias": ["Esportes"]}
+[
+    {
+        "nome_categoria": "Cal\u00e7ados",
+        "atributos_adicionais": [
+            "tamanho",
+            "material"
+        ]
+    },
+    {
+        "nome_categoria": "Eletr\u00f4nicos",
+        "atributos_adicionais": [
+            "voltagem",
+            "conectividade"
+        ]
+    },
+    {
+        "nome_categoria": "Roupas",
+        "atributos_adicionais": [
+            "tamanho",
+            "cor"
+        ]
+    },
+    {
+        "nome_categoria": "Acess\u00f3rios",
+        "atributos_adicionais": []
+    },
+    {
+        "nome_categoria": "teste",
+        "atributos_adicionais": [
+            "testando"
+        ]
+    },
+    {
+        "nome_categoria": "Jogos",
+        "atributos_adicionais": [
+            "Plataforma",
+            "G\u00eanero"
+        ]
+    }
+]

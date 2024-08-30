@@ -50,3 +50,4 @@ def alterar_quantidade_estoque(codigo, nova_quantidade):
 def exibir_estoque():
     for item in estoque:
         print(f"Código: {item['codigo']}, Quantidade: {item['quantidade']}")
+

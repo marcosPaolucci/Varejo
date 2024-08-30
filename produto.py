@@ -43,7 +43,7 @@ class Eletrodomesticos(Produto):
 
 class Roupas(Produto):
     def __init__(self, codigo, nome, quantidade, preço, descricao, fornecedor, tamanho):
-        self.categoria = "Eletronicos"
+        self.categoria = "Roupas"
         super().__init__(codigo, nome, self.categoria ,quantidade, preço, descricao, fornecedor)
         self.tamanho = tamanho
 

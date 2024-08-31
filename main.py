@@ -1,5 +1,5 @@
 # main.py
-from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, alterar_quantidade_estoque, exibir_estoque, remover_produto
+from estoque import  exibir_estoque, get_produto
 from categoria import Categoria
 from produto import Produto
 from subclasses import criar_subclasse
@@ -25,10 +25,17 @@ from subclasses import criar_subclasse
 
 #Cosméticos = Categoria.get_categoria_por_nome("Cosméticos")
 
-#Cosméticos = criar_subclasse("Cosméticos")
-#Shampoo = Cosméticos(21, "Shampoo", 50, 10, "Shampoo para cabelo", "Natura", "Cabelo", "Nacional")
-#Shampoo.adicionar_produto()
-exibir_estoque()
+# Cosméticos = criar_subclasse("Cosméticos")
+# Shampoo = Cosméticos(21, "Shampoo", 50, 10, "Shampoo para cabelo", "Natura", "Cabelo", "Nacional")
+# Shampoo.adicionar_produto()
+#exibir_estoque()
 
-Jogos3 = Categoria("Jogos3","Plataforma","Categoria")
-Jogos3.salvar_categoria()
+
+#teste = Categoria.get_categoria_por_nome("Jogos")
+#teste.modificar_atributos_adicionais(None)
+#print(get_produto(21))
+# atributos = vars(get_produto(21)) 
+# for atributo, valor in atributos.items():
+#     print(f"{atributo}: {valor}")
+doc = get_produto(21)
+doc.adicionar_quantidade()

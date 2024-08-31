@@ -25,17 +25,8 @@
         "atributos_adicionais": []
     },
     {
-        "nome_categoria": "teste",
-        "atributos_adicionais": [
-            "testando"
-        ]
-    },
-    {
         "nome_categoria": "Jogos",
-        "atributos_adicionais": [
-            "Plataforma",
-            "G\u00eanero"
-        ]
+        "atributos_adicionais": null
     },
     {
         "nome_categoria": "Jogos2",

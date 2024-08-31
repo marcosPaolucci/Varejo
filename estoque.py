@@ -55,13 +55,21 @@ def exibir_estoque():
             print(f"{atributo}: {valor}")
         print("-" * 20)  # Separador visual entre os produtos
     
-def exibir_produto(codigo):
-    """Exibe os detalhes de um produto específico com base no código."""
+def get_produto(codigo):
     for item in estoque:
         if item['codigo'] == codigo:
-            print(f"Produto encontrado: Código: {item['codigo']}, Quantidade: {item['quantidade']}")
-            return
-    print(f"Produto com código {codigo} não encontrado no estoque.")
+            from subclasses import criar_subclasse
+            produto = {}
+            for atributo, valor in item.items():
+                produto[atributo] = valor
+
+            subclasse = criar_subclasse(produto['categoria'])
+            del produto['categoria']
+            produtoobj = subclasse(*produto.values())  # Passando os argumentos como valor de *args
+            return produtoobj
+
+    print("Produto não encontrado no estoque.")
+    return None
 
 def remover_produto(codigo):
     """Remove um produto do estoque com base no código."""
@@ -74,4 +82,12 @@ def remover_produto(codigo):
     print(f"Produto com código {codigo} não encontrado no estoque.")
 
 
-
+def atualizar_preco_estoque(codigo, novo_preco):
+     """Atualiza o preço de um produto no estoque com base no código."""
+     for item in estoque:
+        if item['codigo'] == codigo:
+            item['preço'] = novo_preco
+            salvar_estoque()  # Salva o estoque após a atualização
+            print(f"Preço do produto de código {codigo} atualizado para {novo_preco}")
+            return
+     print(f"Produto com código {codigo} não encontrado no estoque.")

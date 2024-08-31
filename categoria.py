@@ -8,7 +8,7 @@ class Categoria:
         self.nome_categoria = nome_categoria
         self.atributos_adicionais = list(atributos_adicionais)
 
-    def salvar_categoria(self):
+    def criar_categoria(self):
         categorias = self.carregar_categorias()
 
         # Verifica se a categoria já existe para evitar duplicação
@@ -20,9 +20,13 @@ class Categoria:
 
             with open(self.arquivo_json, 'w') as f:
                 json.dump(categorias, f, indent=4)
-            print(f'Categoria "{self.nome_categoria}" salva com sucesso.')
+            print(f'Categoria "{self.nome_categoria}" criada com sucesso.')
         else:
             print(f'Categoria "{self.nome_categoria}" já existe.')
+        
+    def alterar_categoria(self):
+        
+
     
     @classmethod
     def carregar_categorias(self):

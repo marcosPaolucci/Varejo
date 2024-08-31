@@ -36,5 +36,26 @@
             "Plataforma",
             "G\u00eanero"
         ]
+    },
+    {
+        "nome_categoria": "Jogos2",
+        "atributos_adicionais": [
+            "Plataforma",
+            "G\u00eanero"
+        ]
+    },
+    {
+        "nome_categoria": "Cosm\u00e9ticos",
+        "atributos_adicionais": [
+            "Corpo/Rosto",
+            "Importado/Nacional"
+        ]
+    },
+    {
+        "nome_categoria": "Jogos3",
+        "atributos_adicionais": [
+            "Plataforma",
+            "Categoria"
+        ]
     }
 ]

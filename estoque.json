@@ -1,13 +1,13 @@
 [
     {
-        "codigo": 21,
         "nome": "Shampoo",
-        "quantidade": 51,
-        "pre\u00e7o": 100,
+        "quantidade": 50,
+        "pre\u00e7o": 10,
         "descricao": "Shampoo para cabelo",
         "fornecedor": "Natura",
         "Corpo/Rosto": "Cabelo",
         "Importado/Nacional": "Nacional",
-        "categoria": "Cosm\u00e9ticos"
+        "categoria": "Cosm\u00e9ticos",
+        "codigo": 2
     }
 ]

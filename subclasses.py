@@ -19,9 +19,9 @@ def criar_subclasse(nome_categoria):
     class_dict = {'__module__': __name__}
     
     # Define o construtor da nova classe
-    def __init__(self, codigo, nome, quantidade, preço, descricao, fornecedor, *args):
+    def __init__(self, nome, quantidade, preço, descricao, fornecedor, *args):
         # Chama o construtor da classe base
-        produto.Produto.__init__(self, codigo, nome, quantidade, preço, descricao, fornecedor)
+        produto.Produto.__init__(self, nome, quantidade, preço, descricao, fornecedor)
         
         # Inicializa os atributos adicionais
         for i, atributo in enumerate(atributos_adicionais):
@@ -29,6 +29,7 @@ def criar_subclasse(nome_categoria):
             
         # Adiciona o atributo categoria
         self.categoria = nome_categoria
+        self.codigo = None
 
     # Adiciona o construtor ao dicionário de classe
     class_dict['__init__'] = __init__

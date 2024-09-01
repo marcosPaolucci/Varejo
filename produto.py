@@ -1,8 +1,7 @@
 from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, alterar_quantidade_estoque, remover_produto, atualizar_preco_estoque
 
 class Produto:
-    def __init__(self, codigo, nome, quantidade, preço, descricao, fornecedor):
-        self.codigo = codigo
+    def __init__(self, nome, quantidade, preço, descricao, fornecedor):
         self.nome = nome
         self.quantidade = quantidade
         self.preço = preço
@@ -22,7 +21,7 @@ class Produto:
         self.alerta_estoque_baixo()
 
     def atualizar_quantidade(self, num):
-         self.quantidade = self.quantidade + num
+         self.quantidade = num
          alterar_quantidade_estoque(self.codigo, self.quantidade)
          self.alerta_estoque_baixo()
 

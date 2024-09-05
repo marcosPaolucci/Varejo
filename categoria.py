@@ -18,7 +18,7 @@ class Categoria:
                 'atributos_adicionais': self.atributos_adicionais
             })
 
-            with open(self.arquivo_json, 'w') as f:
+            with open(self.arquivo_json, 'w', encoding="utf-8") as f:
                 json.dump(categorias, f, indent=4)
             print(f'Categoria "{self.nome_categoria}" criada com sucesso.')
         else:
@@ -37,7 +37,7 @@ class Categoria:
                 break
 
         # Salva as alterações no arquivo JSON
-        with open(self.arquivo_json, 'w') as f:
+        with open(self.arquivo_json, 'w', encoding="utf-8") as f:
             json.dump(categorias, f, indent=4)
 
         print(f"Categoria {self.nome_categoria} modificada com sucesso!")
@@ -51,7 +51,7 @@ class Categoria:
         categorias_filtradas = [c for c in categorias if c['nome_categoria'] != self.nome_categoria]
 
         # Salva as alterações no arquivo JSON
-        with open(self.arquivo_json, 'w') as f:
+        with open(self.arquivo_json, 'w', encoding="utf-8") as f:
             json.dump(categorias_filtradas, f, indent=4)
 
         print(f'Categoria "{self.nome_categoria}" removida com sucesso.')
@@ -59,7 +59,7 @@ class Categoria:
     @classmethod
     def carregar_categorias(self):
         if os.path.exists(self.arquivo_json):
-            with open(self.arquivo_json, 'r') as f:
+            with open(self.arquivo_json, 'r', encoding="utf-8") as f:
                 return json.load(f)
         else:
             return []

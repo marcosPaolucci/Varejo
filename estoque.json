@@ -9,5 +9,25 @@
         "Importado/Nacional": "Nacional",
         "categoria": "Cosm\u00e9ticos",
         "codigo": 2
+    },
+    {
+        "nome": "geladeira",
+        "quantidade": 5000.0,
+        "pre\u00e7o": 1,
+        "descricao": "duas portas, cinza, freezer embaixo",
+        "fornecedor": "Eletrolux",
+        "voltagem": "fuygyu",
+        "categoria": "eletrodom\u00e9sticos",
+        "codigo": 3
+    },
+    {
+        "nome": "geladeira",
+        "quantidade": 1,
+        "pre\u00e7o": 8000.0,
+        "descricao": "joui",
+        "fornecedor": "jnn",
+        "voltagem": "110",
+        "categoria": "eletrodom\u00e9sticos",
+        "codigo": 4
     }
 ]

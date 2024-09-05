@@ -6,14 +6,14 @@ ARQUIVO_ESTOQUE = 'estoque.json'
 def carregar_estoque():
     """Carrega o estoque do arquivo JSON, se existir."""
     try:
-        with open(ARQUIVO_ESTOQUE, 'r') as file:
+        with open(ARQUIVO_ESTOQUE, 'r', encoding="utf-8") as file:
             return json.load(file)
     except FileNotFoundError:
         return []
 
 def salvar_estoque(estoque):
     """Salva o estoque no arquivo JSON."""
-    with open(ARQUIVO_ESTOQUE, 'w') as file:
+    with open(ARQUIVO_ESTOQUE, 'w', encoding="utf-8") as file:
         json.dump(estoque, file, indent=4)
     
 def gerar_codigo_unico(estoque):

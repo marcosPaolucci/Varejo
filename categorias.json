@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "nome_categoria": "eletrodom\u00e9sticos",
+        "atributos_adicionais": [
+            "voltagem"
+        ]
+    },
+    {
+        "nome_categoria": "pe\u00e7as",
+        "atributos_adicionais": [
+            ""
+        ]
+    },
+    {
+        "nome_categoria": "pe\u00e7as2",
+        "atributos_adicionais": [
+            ""
+        ]
+    }
+]

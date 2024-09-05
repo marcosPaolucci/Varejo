@@ -29,10 +29,16 @@ from subclasses import criar_subclasse
 #print(Categorias)
 
 #Funcionalidade de get da categoria e acessar métodos das categorias:
-Cosméticos = Categoria.get_categoria_por_nome("Cosméticos")
+#Cosméticos = Categoria.get_categoria_por_nome("eletrodomésticos")
+#print(Cosméticos.atributos_adicionais)
 #Cosméticos.modificar_atributos_adicionais(["Corpo/Rosto", "Importado/Nacional", "Hipoalergenico"])
 #print(Cosméticos.atributos_adicionais) #para visualização de atributos alterados
-Cosméticos.remover_categoria()
+#Cosméticos.remover_categoria()
+# main.py
+from menu import mostrar_menu
+
+if __name__ == "__main__":
+    mostrar_menu()
 
 
 

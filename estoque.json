@@ -1,84 +1,32 @@
 [
     {
-        "nome": "Shampoo",
-        "quantidade": 50,
-        "pre\u00e7o": 10,
-        "descricao": "Shampoo para cabelo",
-        "fornecedor": "Natura",
-        "Corpo/Rosto": "Cabelo",
-        "Importado/Nacional": "Nacional",
-        "categoria": "Cosm\u00e9ticos",
+        "nome": "Geladeira",
+        "quantidade": 11,
+        "pre\u00e7o": 505.0,
+        "descricao": "Geladeira 2 portas freezer parte inferior",
+        "fornecedor": "Eletrolux",
+        "voltagem": "110",
+        "categoria": "Eletrodom\u00e9sticos",
+        "codigo": 1
+    },
+    {
+        "nome": "A Bela Adormecida",
+        "quantidade": 20,
+        "pre\u00e7o": 50.0,
+        "descricao": "livro do cl\u00e1ssico conto de fadas",
+        "fornecedor": "Disney",
+        "autor": " Grimm",
+        "editora": "Abril",
+        "categoria": "Livros",
         "codigo": 2
     },
     {
-        "nome": "geladeira",
-        "quantidade": 5000.0,
-        "pre\u00e7o": 1,
-        "descricao": "duas portas, cinza, freezer embaixo",
-        "fornecedor": "Eletrolux",
-        "voltagem": "fuygyu",
-        "categoria": "eletrodom\u00e9sticos",
+        "nome": "copo pl\u00e1stico 50 unidades",
+        "quantidade": 90,
+        "pre\u00e7o": 10.0,
+        "descricao": "copo para festas e eventos",
+        "fornecedor": "Recycle",
+        "categoria": "b\u00e1sico",
         "codigo": 3
-    },
-    {
-        "nome": "geladeira",
-        "quantidade": 1,
-        "pre\u00e7o": 8000.0,
-        "descricao": "joui",
-        "fornecedor": "jnn",
-        "voltagem": "110",
-        "categoria": "eletrodom\u00e9sticos",
-        "codigo": 4
-    },
-    {
-        "nome": "Fusivel premium",
-        "quantidade": 10,
-        "pre\u00e7o": 20.0,
-        "descricao": "\u00c9 um fusivel chique",
-        "fornecedor": "FusivelTOP",
-        "": "50",
-        "categoria": "pe\u00e7as",
-        "codigo": 5
-    },
-    {
-        "nome": "Produto Teste",
-        "quantidade": 10,
-        "pre\u00e7o": 50.0,
-        "descricao": "Testando categoria adicional vazia",
-        "fornecedor": "TesteGPT",
-        "": "ERRO AQUI CATEGORIA VAZIA",
-        "categoria": "pe\u00e7as",
-        "codigo": 6
-    },
-    {
-        "nome": "Teste2",
-        "quantidade": 11,
-        "pre\u00e7o": 50.0,
-        "descricao": "Testando com vazio 2",
-        "fornecedor": "TesteGPT",
-        "": "",
-        "categoria": "pe\u00e7as",
-        "codigo": 7
-    },
-    {
-        "nome": "Teste 3",
-        "quantidade": 12,
-        "pre\u00e7o": 50.0,
-        "descricao": "Tesando",
-        "fornecedor": "TesteGPT",
-        "Atributo Teste 1": "OK",
-        "Atributo teste 2": "OK",
-        "categoria": "Testes",
-        "codigo": 8
-    },
-    {
-        "nome": "Teste 4",
-        "quantidade": 14,
-        "pre\u00e7o": 50.0,
-        "descricao": "Testando ",
-        "fornecedor": "TesteGPT",
-        "": "",
-        "categoria": "pe\u00e7as",
-        "codigo": 9
     }
 ]

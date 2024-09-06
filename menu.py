@@ -1,4 +1,3 @@
-# menu.py
 from estoque import exibir_estoque, get_produto
 from categoria import Categoria
 from produto import Produto
@@ -6,43 +5,49 @@ from subclasses import criar_subclasse
 
 def adicionar_categoria():
     nome = input("Digite o nome da categoria: ")
-    # Verifica se o usuário inseriu atributos adicionais corretamente
-    atributos_input = input("Digite os atributos adicionais da categoria (separados por vírgula): ").strip()
-    # Filtra atributos válidos
-    atributos = [atributo.strip() for atributo in atributos_input.split(',') if atributo.strip()]
-    categoria = Categoria(nome, *atributos)
+    atributos = input("Digite os atributos adicionais da categoria (separados por vírgula), Enter caso nenhum atributo adicional: ").split(',')
+    
+    # Remove strings vazias e espaços em branco
+    atributos = [attr.strip() for attr in atributos if attr.strip()]
+
+      # Verifica se há atributos
+    if atributos:  # Se a lista não estiver vazia
+        categoria = Categoria(nome, *atributos)
+    else:  # Se não houver atributos adicionais
+        categoria = Categoria(nome)
     categoria.criar_categoria()
-    print(f"Categoria '{nome}' criada com sucesso.")
 
 def criar_produto():
     categorias = Categoria.carregar_categorias()
-    for i in categorias:
-        print(i["nome_categoria"])
-    nome_categoria = input("Digite o nome da categoria para criar o produto: ")
+    if not categorias:
+        print("\nNenhuma categoria encontrada! Crie uma categoria antes de adicionar um produto!")
+        return
+    Categoria.exibir_categorias_existentes(categorias)
+
+    try:
+        num_categoria = int(input("Digite o número da categoria para criar o produto: "))
+        if num_categoria < 1 or num_categoria > len(categorias):
+            print("Número de categoria inválido.")
+            return
+    except ValueError:
+        print("Entrada inválida. Por favor, insira um número.")
+        return
+    
+    nome_categoria = categorias[num_categoria - 1]['nome_categoria']
     Subclasse = criar_subclasse(nome_categoria)
 
     if Subclasse:
         categoria = Categoria.get_categoria_por_nome(nome_categoria)
         atributos_adicionais = []
-        # Se a categoria tem atributos adicionais válidos, solicita os valores
-        if categoria.atributos_adicionais:
-            for i in categoria.atributos_adicionais:
-                if i:  # Verifica se o atributo realmente existe
-                    valor_atributo = input(f"Digite o valor de {i}: ").strip() or ""
-                    atributos_adicionais.append(valor_atributo)
-        # Preenche com strings vazias se a categoria não possuir atributos adicionais
-        else:
-            atributos_adicionais = [""] * len(categoria.atributos_adicionais)
-
-        # Corrige para garantir que o número de valores corresponda ao número de atributos
-        while len(atributos_adicionais) < len(categoria.atributos_adicionais):
-            atributos_adicionais.append("")  # Adiciona strings vazias até que os comprimentos coincidam
-
         nome_produto = input("Digite o nome do produto: ")
         preco = float(input("Digite o preço do produto: "))
         quantidade = int(input("Digite a quantidade do produto: "))
         descricao = input("Digite a descrição do produto: ")
         fornecedor = input("Digite a marca do produto: ")
+        if len(categoria.atributos_adicionais) > 0:
+            for atributo in categoria.atributos_adicionais:
+                valor = input(f"Digite o valor de {atributo}: ")
+                atributos_adicionais.append(valor)
         produto = Subclasse(nome_produto, quantidade, preco, descricao, fornecedor, *atributos_adicionais)
         produto.adicionar_produto()
         print(f"Produto '{nome_produto}' adicionado com sucesso.")
@@ -57,22 +62,22 @@ def gerenciar_produto():
     if produto:
         while True:
             print("\nEscolha uma ação:")
-            print("1. Adicionar quantidade")
-            print("2. Remover quantidade")
+            print("1. Incrementar quantidade")
+            print("2. Decrementar quantidade")
             print("3. Atualizar quantidade")
             print("4. Atualizar preço")
-            print("5. Remover produto")
-            print("6. Voltar ao menu principal")
+            print("5. Alterar nome do produto")
+            print("6. Alterar descrição do produto")
+            print("7. Remover produto")
+            print("8. Voltar ao menu principal")
             escolha = input("Escolha uma opção: ")
 
             if escolha == '1':
-                quantidade = int(input("Digite a quantidade a ser adicionada: "))
-                produto.adicionar_quantidade(quantidade)
-                print("Quantidade adicionada com sucesso.")
+                produto.adicionar_quantidade()
+                print("Quantidade incrementada com sucesso.")
             elif escolha == '2':
-                quantidade = int(input("Digite a quantidade a ser removida: "))
-                produto.remover_quantidade(quantidade)
-                print("Quantidade removida com sucesso.")
+                produto.remover_quantidade()
+                print("Quantidade decrementada com sucesso.")
             elif escolha == '3':
                 nova_quantidade = int(input("Digite a nova quantidade: "))
                 produto.atualizar_quantidade(nova_quantidade)
@@ -82,14 +87,18 @@ def gerenciar_produto():
                 produto.atualizar_preço(novo_preço)
                 print("Preço atualizado com sucesso.")
             elif escolha == '5':
-                produto.remover_produto()
-                print("Produto removido com sucesso.")
+                novo_nome = input("Digite o novo nome: ")
+                produto.alterar_nome(novo_nome)
             elif escolha == '6':
+                novo_desc = input("Digite a nova descrição: ")
+                produto.alterar_descrição(novo_desc)
+            elif escolha == '7':
+                produto.remover_produto()
+            elif escolha == '8':
                 break
             else:
                 print("Opção inválida. Tente novamente.")
-    else:
-        print("Produto não encontrado.")
+        
 
 def exibir_categorias():
     categorias = Categoria.carregar_categorias()
@@ -97,10 +106,25 @@ def exibir_categorias():
         for categoria in categorias:
             print(categoria)
     else:
-        print("Nenhuma categoria encontrada.")
+        print("\nNenhuma categoria encontrada!")
 
 def gerenciar_categoria():
-    nome_categoria = input("Digite o nome da categoria: ")
+    categorias = Categoria.carregar_categorias()
+    if not categorias:
+        print("\nNenhuma categoria encontrada para gerenciar!")
+        return
+    Categoria.exibir_categorias_existentes(categorias)
+
+    try:
+        num_categoria = int(input("Digite o número da categoria que deseja gerenciar: "))
+        if num_categoria < 1 or num_categoria > len(categorias):
+            print("Número de categoria inválido.")
+            return
+    except ValueError:
+        print("Entrada inválida. Por favor, insira um número.")
+        return
+    
+    nome_categoria = categorias[num_categoria - 1]['nome_categoria']
     categoria = Categoria.get_categoria_por_nome(nome_categoria)
     if categoria:
         while True:
@@ -111,10 +135,11 @@ def gerenciar_categoria():
             escolha = input("Escolha uma opção: ")
 
             if escolha == '1':
-                novos_atributos = input("Digite os novos atributos (separados por vírgula): ").split(',')
+                print("Atributos atuais:", categoria.atributos_adicionais)
+                novos_atributos = input("Digite os novos atributos (separados por vírgula), Enter caso nenhum atributo adicional: ").split(',')
+                novos_atributos = [attr.strip() for attr in novos_atributos if attr.strip()]
                 categoria.modificar_atributos_adicionais(novos_atributos)
                 print("Atributos modificados com sucesso.")
-                print("Atributos atuais:", categoria.atributos_adicionais)
             elif escolha == '2':
                 categoria.remover_categoria()
                 print("Categoria removida com sucesso.")
@@ -124,7 +149,7 @@ def gerenciar_categoria():
             else:
                 print("Opção inválida. Tente novamente.")
     else:
-        print("Categoria não encontrada.")
+        return
 
 def mostrar_menu():
     while True:

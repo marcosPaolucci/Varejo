@@ -1,27 +1,19 @@
 [
     {
-        "nome_categoria": "eletrodom\u00e9sticos",
+        "nome_categoria": "Eletrodom\u00e9sticos",
         "atributos_adicionais": [
             "voltagem"
         ]
     },
     {
-        "nome_categoria": "pe\u00e7as",
+        "nome_categoria": "Livros",
         "atributos_adicionais": [
-            ""
+            "autor",
+            "editora"
         ]
     },
     {
-        "nome_categoria": "pe\u00e7as2",
-        "atributos_adicionais": [
-            ""
-        ]
-    },
-    {
-        "nome_categoria": "Testes",
-        "atributos_adicionais": [
-            "Atributo Teste 1",
-            "Atributo teste 2"
-        ]
+        "nome_categoria": "b\u00e1sico",
+        "atributos_adicionais": []
     }
 ]

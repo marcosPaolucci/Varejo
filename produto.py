@@ -1,4 +1,4 @@
-from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, alterar_quantidade_estoque, remover_produto, atualizar_preco_estoque
+from estoque import adicionar_produto_estoque, adicionar_quantidade_estoque, remover_quantidade_estoque, alterar_quantidade_estoque, remover_produto, atualizar_preco_estoque, alterar_nome_estoque, alterar_descrição_estoque
 
 class Produto:
     def __init__(self, nome, quantidade, preço, descricao, fornecedor):
@@ -34,5 +34,14 @@ class Produto:
     
     def remover_produto(self):
         remover_produto(self.codigo)
+
+    def alterar_nome(self, novo_nome):
+        alterar_nome_estoque(self.codigo, novo_nome)
+
+    def alterar_descrição(self, descricao):
+        alterar_descrição_estoque(self.codigo, descricao)
+        
+
+
     
 

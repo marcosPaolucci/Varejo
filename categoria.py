@@ -74,7 +74,10 @@ class Categoria:
                 return cls(nome_categoria, *atributos_adicionais)  # Instancia um novo objeto Categoria
         print(f'Categoria "{nome_categoria}" não encontrada.')
         return None  # Retorna None se não encontrar a categoria
-            
-  
 
+    @classmethod
+    def exibir_categorias_existentes(self, categorias):
+        print("Categorias existentes:")
+        for idx, categoria in enumerate(categorias, start=1):
+            print(f"{idx}. {categoria['nome_categoria']}")
 

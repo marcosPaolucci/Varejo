@@ -29,14 +29,11 @@ def adicionar_produto_estoque(produto):
     """Adiciona um produto ao estoque, gerando automaticamente o código."""
     estoque = carregar_estoque()
     
-    # Gerar código único para o novo produto
     codigo_unico = gerar_codigo_unico(estoque)
     
-    # Adicionar o código ao dicionário do produto
     produto_dict = vars(produto)
     produto_dict['codigo'] = codigo_unico
     
-    # Adicionar o produto ao estoque e salvar
     estoque.append(produto_dict)
     salvar_estoque(estoque)
     print(f"Produto {produto.nome} adicionado ao estoque com o código {codigo_unico}.")
@@ -70,11 +67,18 @@ def alterar_quantidade_estoque(codigo, nova_quantidade):
 
 def exibir_estoque():
     estoque = carregar_estoque()
-    for item in estoque:
-        for atributo, valor in item.items():
-            print(f"{atributo}: {valor}")
-        print("-" * 20)  # Separador visual entre os produtos
-    
+    if estoque:
+        print("-" * 20)
+        contador = 0 
+        for item in estoque:
+            for atributo, valor in item.items():
+                print(f"{atributo}: {valor}")
+            print("-" * 20)  # Separador visual entre os produtos
+            contador += 1
+        print(f"Total de produtos no estoque: {contador}")
+    else:
+        print("\nEstoque vazio!")
+        
 def get_produto(codigo):
     estoque = carregar_estoque()
     for item in estoque:
@@ -112,5 +116,27 @@ def atualizar_preco_estoque(codigo, novo_preco):
             item['preço'] = novo_preco
             salvar_estoque(estoque)
             print(f"Preço do produto de código {codigo} atualizado para {novo_preco}")
+            return
+    print(f"Produto com código {codigo} não encontrado no estoque.")
+
+def alterar_nome_estoque(codigo, novo_nome):
+    """Altera o nome de um produto no estoque com base no código."""
+    estoque = carregar_estoque()
+    for item in estoque:
+        if item['codigo'] == codigo:
+            item['nome'] = novo_nome
+            salvar_estoque(estoque)
+            print(f"Nome do produto de código {codigo} alterado para {novo_nome}")
+            return
+    print(f"Produto com código {codigo} não encontrado no estoque.")
+
+def alterar_descrição_estoque(codigo, nova_descrição):
+    """Altera a descrição de um produto no estoque com base no código."""
+    estoque = carregar_estoque()
+    for item in estoque:
+        if item['codigo'] == codigo:
+            item['descricao'] = nova_descrição
+            salvar_estoque(estoque)
+            print(f"Descrição do produto de código {codigo} alterada para {nova_descrição}")
             return
     print(f"Produto com código {codigo} não encontrado no estoque.")

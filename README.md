@@ -17,3 +17,4 @@
 ## Como Executar
 
 Para rodar o projeto, execute o arquivo `main.py`
+

@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Mod_Relacional_varejo" id="E62A1A83-49C8-B712-9DE8-E28A5B98BE66" version="3.5">
-<createdBy>paulo</createdBy>
-<createdTime>2024-08-09 14:39:00 UTC</createdTime>
-<ownerDesignName>Mod_Relacional_varejo</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>E62A1A83-49C8-B712-9DE8-E28A5B98BE66</designId>
-</OSDM_Design>

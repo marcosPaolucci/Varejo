@@ -1,56 +1,19 @@
+# Python-CP1-VAREJO
 
-# Classe de produto - Categorias
-    ##Categoria.json
-    id_categoria - *# preenchimento automatico 
-    nome da categoria*
-    atributos da categoria*
+## Membros do Grupo:
 
-    #funções
-    adicionar Categoria
-    remover categoria
-    salvar categoria
-    atualizar categoria
+- **Herbertt di Franco Marques**  
+  RM: 556640
 
-    
-    
-        
-# Classe de Fornecedor
-    Nome*
-    cod_fornecedor*#  preenchimento automatico
-    endereco_fornecedor*
-    CNPJ_fornecedor*
-    Raz_social_fornecedor*
+- **Lorena Bauer Nogueira**  
+  RM: 555272
 
-    #funções
-    adicionar Categoria
-    remover categoria
-    salvar categoria
-    atualizar categoria
+- **Marcos Paolucci Salamondac**  
+  RM: 554941
 
-# Classe Main
-    chama o menu
+- **Paulo Carvalho Ruiz Borba**  
+  RM: 554562
 
-# Classe Menu
-    
-    #gerenciar produtos
-    ver produtos
-        mostra lista de produtos
-        >alterar informações produto
-        >adicionar
-        >remover
+## Como Executar
 
-    #gerenciar estoque
-    ver estoque
-        motra estoque
-        >alterar estoque
-
-
-
-    #gerenciar fornecedores
-        motra fornecedor
-        >alterar fornecedor
-        >adicionar
-        >remover
-
-
-
+Para rodar o projeto, execute o arquivo `main.py`

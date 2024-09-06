@@ -6,7 +6,10 @@ from subclasses import criar_subclasse
 
 def adicionar_categoria():
     nome = input("Digite o nome da categoria: ")
-    atributos = input("Digite os atributos adicionais da categoria (separados por vírgula): ").split(',')
+    # Verifica se o usuário inseriu atributos adicionais corretamente
+    atributos_input = input("Digite os atributos adicionais da categoria (separados por vírgula): ").strip()
+    # Filtra atributos válidos
+    atributos = [atributo.strip() for atributo in atributos_input.split(',') if atributo.strip()]
     categoria = Categoria(nome, *atributos)
     categoria.criar_categoria()
     print(f"Categoria '{nome}' criada com sucesso.")
@@ -21,8 +24,20 @@ def criar_produto():
     if Subclasse:
         categoria = Categoria.get_categoria_por_nome(nome_categoria)
         atributos_adicionais = []
-        for i in categoria.atributos_adicionais:
-            atributos_adicionais.append(input(f"Digite o valor de {i}: "))
+        # Se a categoria tem atributos adicionais válidos, solicita os valores
+        if categoria.atributos_adicionais:
+            for i in categoria.atributos_adicionais:
+                if i:  # Verifica se o atributo realmente existe
+                    valor_atributo = input(f"Digite o valor de {i}: ").strip() or ""
+                    atributos_adicionais.append(valor_atributo)
+        # Preenche com strings vazias se a categoria não possuir atributos adicionais
+        else:
+            atributos_adicionais = [""] * len(categoria.atributos_adicionais)
+
+        # Corrige para garantir que o número de valores corresponda ao número de atributos
+        while len(atributos_adicionais) < len(categoria.atributos_adicionais):
+            atributos_adicionais.append("")  # Adiciona strings vazias até que os comprimentos coincidam
+
         nome_produto = input("Digite o nome do produto: ")
         preco = float(input("Digite o preço do produto: "))
         quantidade = int(input("Digite a quantidade do produto: "))
@@ -33,6 +48,8 @@ def criar_produto():
         print(f"Produto '{nome_produto}' adicionado com sucesso.")
     else:
         print("Categoria não encontrada.")
+
+
 
 def gerenciar_produto():
     codigo = int(input("Digite o código do produto: "))

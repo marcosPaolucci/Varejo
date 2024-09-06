@@ -16,5 +16,12 @@
         "atributos_adicionais": [
             ""
         ]
+    },
+    {
+        "nome_categoria": "Testes",
+        "atributos_adicionais": [
+            "Atributo Teste 1",
+            "Atributo teste 2"
+        ]
     }
 ]

@@ -29,5 +29,56 @@
         "voltagem": "110",
         "categoria": "eletrodom\u00e9sticos",
         "codigo": 4
+    },
+    {
+        "nome": "Fusivel premium",
+        "quantidade": 10,
+        "pre\u00e7o": 20.0,
+        "descricao": "\u00c9 um fusivel chique",
+        "fornecedor": "FusivelTOP",
+        "": "50",
+        "categoria": "pe\u00e7as",
+        "codigo": 5
+    },
+    {
+        "nome": "Produto Teste",
+        "quantidade": 10,
+        "pre\u00e7o": 50.0,
+        "descricao": "Testando categoria adicional vazia",
+        "fornecedor": "TesteGPT",
+        "": "ERRO AQUI CATEGORIA VAZIA",
+        "categoria": "pe\u00e7as",
+        "codigo": 6
+    },
+    {
+        "nome": "Teste2",
+        "quantidade": 11,
+        "pre\u00e7o": 50.0,
+        "descricao": "Testando com vazio 2",
+        "fornecedor": "TesteGPT",
+        "": "",
+        "categoria": "pe\u00e7as",
+        "codigo": 7
+    },
+    {
+        "nome": "Teste 3",
+        "quantidade": 12,
+        "pre\u00e7o": 50.0,
+        "descricao": "Tesando",
+        "fornecedor": "TesteGPT",
+        "Atributo Teste 1": "OK",
+        "Atributo teste 2": "OK",
+        "categoria": "Testes",
+        "codigo": 8
+    },
+    {
+        "nome": "Teste 4",
+        "quantidade": 14,
+        "pre\u00e7o": 50.0,
+        "descricao": "Testando ",
+        "fornecedor": "TesteGPT",
+        "": "",
+        "categoria": "pe\u00e7as",
+        "codigo": 9
     }
 ]

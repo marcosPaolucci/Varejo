@@ -1,0 +1,19 @@
+[
+    {
+        "nome_categoria": "Eletrodom\u00e9sticos",
+        "atributos_adicionais": [
+            "voltagem"
+        ]
+    },
+    {
+        "nome_categoria": "Livros",
+        "atributos_adicionais": [
+            "autor",
+            "editora"
+        ]
+    },
+    {
+        "nome_categoria": "b\u00e1sico",
+        "atributos_adicionais": []
+    }
+]

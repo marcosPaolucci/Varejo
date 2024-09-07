@@ -15,5 +15,16 @@
     {
         "nome_categoria": "b\u00e1sico",
         "atributos_adicionais": []
+    },
+    {
+        "nome_categoria": "tubos",
+        "atributos_adicionais": [
+            "diametro",
+            "material"
+        ]
+    },
+    {
+        "nome_categoria": "automoveis",
+        "atributos_adicionais": []
     }
 ]

@@ -1,0 +1,20 @@
+[
+    {
+        "id_fornecedor": 1,
+        "nome": "paulao_tubos",
+        "cnpj": "09006160000112",
+        "endereco": "rua da paixao 777",
+        "telefone": "11985444455",
+        "email": "paulao_tubos@gmail.com",
+        "nome_representante": "paulao"
+    },
+    {
+        "id_fornecedor": 2,
+        "nome": "lolo automoveis",
+        "cnpj": "09006160000112",
+        "endereco": "rua tica tica 12",
+        "telefone": "11988888888",
+        "email": "lolo_auto@gmail.com",
+        "nome_representante": "lorena"
+    }
+]

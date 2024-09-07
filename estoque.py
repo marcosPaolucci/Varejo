@@ -1,4 +1,6 @@
 import json
+from fornecedor import Fornecedor
+from categoria import Categoria
 
 # Nome do arquivo onde o estoque será salvo
 ARQUIVO_ESTOQUE = 'estoque.json'
@@ -34,9 +36,15 @@ def adicionar_produto_estoque(produto):
     produto_dict = vars(produto)
     produto_dict['codigo'] = codigo_unico
     
+    # Converte o objeto fornecedor para um dicionário
+    produto_dict['fornecedor'] = produto.fornecedor.to_dict()
+    
     estoque.append(produto_dict)
     salvar_estoque(estoque)
     print(f"Produto {produto.nome} adicionado ao estoque com o código {codigo_unico}.")
+
+
+
 
 def adicionar_quantidade_estoque(codigo):
     estoque = carregar_estoque()
@@ -84,18 +92,34 @@ def get_produto(codigo):
     for item in estoque:
         if item['codigo'] == codigo:
             from subclasses import criar_subclasse
-            produto = {}
-            for atributo, valor in item.items():
-                produto[atributo] = valor
-
-            subclasse = criar_subclasse(produto['categoria'])
-            del produto['categoria']
-            produtoobj = subclasse(*produto.values())  # Passando os argumentos como valor de *args
-            produtoobj.codigo = produto['codigo']
-            return produtoobj
+            categoria_nome = item['categoria']
+            
+            # Criar a subclasse correta com base na categoria
+            subclasse = criar_subclasse(categoria_nome)
+            
+            # Pegar os atributos adicionais da categoria
+            categoria = Categoria.get_categoria_por_nome(categoria_nome)
+            atributos_adicionais = categoria.atributos_adicionais if categoria else []
+            
+            # Separar os atributos adicionais do produto para passar como *args
+            valores_adicionais = [item.get(attr) for attr in atributos_adicionais]
+            
+            # Criar o objeto do produto com todos os atributos esperados
+            produto = subclasse(
+                item['nome'],
+                item['quantidade'],
+                item['preço'],
+                item['descricao'],
+                item['fornecedor'],  # Lembrar de carregar o fornecedor correto
+                *valores_adicionais
+            )
+            produto.codigo = item['codigo']
+            return produto
 
     print("Produto não encontrado no estoque.")
     return None
+
+
 
 def remover_produto(codigo):
     """Remove um produto do estoque com base no código."""

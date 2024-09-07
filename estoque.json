@@ -28,5 +28,42 @@
         "fornecedor": "Recycle",
         "categoria": "b\u00e1sico",
         "codigo": 3
+    },
+    {
+        "nome": "tubo",
+        "quantidade": 12,
+        "pre\u00e7o": 33.0,
+        "descricao": "tubo",
+        "fornecedor": {
+            "nome": "paulao_tubos",
+            "cnpj": "09006160000112",
+            "endereco": "rua da paixao 777",
+            "telefone": "11985444455",
+            "email": "paulao_tubos@gmail.com",
+            "nome_representante": "paulao",
+            "id_fornecedor": null
+        },
+        "diametro": "12",
+        "material": "a\u00e7o",
+        "categoria": "tubos",
+        "codigo": 4
+    },
+    {
+        "nome": "lolo de luxo",
+        "quantidade": 1,
+        "pre\u00e7o": 777777.0,
+        "descricao": "auto lolo de luxo",
+        "fornecedor": {
+            "nome": "lolo automoveis",
+            "cnpj": "09006160000112",
+            "endereco": "rua tica tica 12",
+            "telefone": "11985555555",
+            "email": "lolo_auto@gmail.com",
+            "nome_representante": "lorena",
+            "id_fornecedor": null
+        },
+        "marca": "lolo auto",
+        "categoria": "automoveis",
+        "codigo": 5
     }
 ]

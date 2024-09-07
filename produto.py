@@ -12,17 +12,14 @@ class Produto:
         adicionar_produto_estoque(self)
 
     def adicionar_quantidade(self):
-        self.quantidade = self.quantidade + 1
-        adicionar_quantidade_estoque(self.codigo, 1)
+        adicionar_quantidade_estoque(self.codigo)
         
     def remover_quantidade(self):
-        self.quantidade = self.quantidade - 1
-        remover_quantidade_estoque(self.codigo, 1)
+        remover_quantidade_estoque(self.codigo)
         self.alerta_estoque_baixo()
 
     def atualizar_quantidade(self, num):
-         self.quantidade = num
-         alterar_quantidade_estoque(self.codigo, self.quantidade)
+         alterar_quantidade_estoque(self.codigo, num)
          self.alerta_estoque_baixo()
 
     def alerta_estoque_baixo(self):

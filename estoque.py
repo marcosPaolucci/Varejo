@@ -38,19 +38,19 @@ def adicionar_produto_estoque(produto):
     salvar_estoque(estoque)
     print(f"Produto {produto.nome} adicionado ao estoque com o código {codigo_unico}.")
 
-def adicionar_quantidade_estoque(codigo, quantidade):
+def adicionar_quantidade_estoque(codigo):
     estoque = carregar_estoque()
     for item in estoque:
         if item['codigo'] == codigo:
-            item['quantidade'] += quantidade
+            item['quantidade'] += 1
             salvar_estoque(estoque)
             return
 
-def remover_quantidade_estoque(codigo, quantidade):
+def remover_quantidade_estoque(codigo):
     estoque = carregar_estoque()
     for item in estoque:
         if item['codigo'] == codigo:
-            item['quantidade'] -= quantidade
+            item['quantidade'] -= 1
             if item['quantidade'] < 0:
                 item['quantidade'] = 0
             salvar_estoque(estoque)

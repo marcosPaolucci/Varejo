@@ -1,4 +1,3 @@
-# main.py
 from estoque import  exibir_estoque, get_produto
 from categoria import Categoria
 from produto import Produto

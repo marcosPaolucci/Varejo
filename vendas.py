@@ -1,7 +1,7 @@
 import json
 from estoque import get_produto
 
-def Registrar_Venda(CPFcliente, codigoProdutos, quantidades):
+def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
     # Abre e lê o arquivo estoque.json (que agora é uma lista de JSONs)
     with open('estoque.json', 'r') as f:
         estoque = json.load(f)
@@ -22,6 +22,9 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades):
         produto = buscar_produto_por_codigo(codigo)  # Busca o produto pelo código
         if produto:
             preco = produto["preço"]  # Obtém o preço do produto
+            if promoção:
+                if codigo == promoção[0]:
+                    preco = preco * promoção[1]
             quantidade_estoque = produto["quantidade"]
             if quantidade_estoque < quantidade:
                 print(f"Quantidade insuficiente no estoque para o produto: {produto['nome']}")
@@ -55,7 +58,8 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades):
     }
 
 # Exemplo de uso:
-venda = Registrar_Venda("12345678900", [1, 2], [1, 19])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
+#venda = Registrar_Venda("12345678900", [1, 2], [1, 1])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
+venda = Registrar_Venda("12345678900", [2], [2], [2,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
 print(venda["total"])  # Imprime o total da venda
 print(venda["itens"])
 print(venda["CPFcliente"])

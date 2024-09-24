@@ -1,7 +1,7 @@
 [
     {
         "nome": "Geladeira",
-        "quantidade": 5,
+        "quantidade": 4,
         "pre\u00e7o": 505.0,
         "descricao": "Geladeira 2 portas freezer parte inferior",
         "fornecedor": "Eletrolux",
@@ -11,7 +11,7 @@
     },
     {
         "nome": "A Bela Adormecida",
-        "quantidade": 14,
+        "quantidade": 10,
         "pre\u00e7o": 50.0,
         "descricao": "livro do cl\u00e1ssico conto de fadas",
         "fornecedor": "Disney",

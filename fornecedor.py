@@ -1,43 +1,30 @@
-import json
-import os
 import re
 
 class Fornecedor:
-    arquivo_json = 'fornecedores.json'
+    from conexão import get_collection
+    COLLECTION_NAME = "Fornecedores"
+    fornecedores_collection = get_collection(COLLECTION_NAME)
 
     def __init__(self, nome, cnpj, endereco, telefone, email, nome_representante, id_fornecedor=None):
         # Valida o CNPJ
         if not self.validar_cnpj(cnpj):
             raise ValueError(f"CNPJ {cnpj} inválido.")
         
-        # Atributos específicos do fornecedor
+        # Atributos do fornecedor
         self.nome = nome
-        self.cnpj = cnpj
+        self.cnpj = self.remover_formatacao_cnpj(cnpj)  # Armazenar o CNPJ sem formatação
         self.endereco = endereco
         self.telefone = telefone
         self.email = email
         self.nome_representante = nome_representante
-        self.id_fornecedor = id_fornecedor  # ID do fornecedor
-
-    @classmethod
-    def gerar_novo_id(cls):
-        fornecedores = cls.carregar_fornecedores()
-
-        if fornecedores:
-            # Retorna o maior ID e soma 1 para gerar o próximo ID
-            maior_id = max(f['id_fornecedor'] for f in fornecedores)
-            return maior_id + 1
-        else:
-            return 1  # Se não houver fornecedores, o primeiro ID será 1
+        self.id_fornecedor = id_fornecedor  # ID do fornecedor, gerado automaticamente
 
     def criar_fornecedor(self):
-        fornecedores = self.carregar_fornecedores()
-
-        if self.id_fornecedor is None:
-            self.id_fornecedor = len(fornecedores) + 1
-
+        # Verifica se o CNPJ já está registrado
+        if Fornecedor.fornecedores_collection.find_one({"cnpj": self.cnpj}):
+            raise ValueError(f"Fornecedor com CNPJ {self.cnpj} já está cadastrado.")
+        
         novo_fornecedor = {
-            'id_fornecedor': self.id_fornecedor,
             'nome': self.nome,
             'cnpj': self.cnpj,
             'endereco': self.endereco,
@@ -46,33 +33,21 @@ class Fornecedor:
             'nome_representante': self.nome_representante
         }
 
-        fornecedores.append(novo_fornecedor)
-        self.salvar_fornecedores(fornecedores)
+        # Insere o novo fornecedor no MongoDB
+        resultado = Fornecedor.fornecedores_collection.insert_one(novo_fornecedor)
+        self.id_fornecedor = resultado.inserted_id  # O ID é gerado automaticamente pelo MongoDB
         print(f'Fornecedor "{self.nome}" criado com sucesso.')
-
-
-    @classmethod
-    def carregar_fornecedores(cls):
-        if os.path.exists(cls.arquivo_json):
-            with open(cls.arquivo_json, 'r', encoding="utf-8") as f:
-                try:
-                    return json.load(f)
-                except json.JSONDecodeError:
-                    return []  # Retorna uma lista vazia se o arquivo estiver vazio ou corrompido
-        else:
-            return []
-
 
     @classmethod
     def exibir_fornecedores_existentes(cls):
-        fornecedores = cls.carregar_fornecedores()
+        fornecedores = cls.fornecedores_collection.find()  # Obtém todos os fornecedores
         if fornecedores:
             print("\nFornecedores existentes:")
             for fornecedor in fornecedores:
                 print("-" * 40)
-                print(f"ID do Fornecedor: {fornecedor['id_fornecedor']}")
+                print(f"ID do Fornecedor: {fornecedor['_id']}")
                 print(f"Nome: {fornecedor['nome']}")
-                print(f"CNPJ: {fornecedor['cnpj']}")
+                print(f"CNPJ: {cls.formatar_cnpj(fornecedor['cnpj'])}")
                 print(f"Endereço: {fornecedor['endereco']}")
                 print(f"Telefone: {fornecedor['telefone']}")
                 print(f"E-mail: {fornecedor['email']}")
@@ -81,96 +56,106 @@ class Fornecedor:
         else:
             print("\nNenhum fornecedor cadastrado!")
 
-
-
     def modificar_fornecedor(self, novos_dados):
-        fornecedores = self.carregar_fornecedores()
+        # Atualiza os dados do fornecedor no MongoDB
+        resultado = Fornecedor.fornecedores_collection.update_one(
+            {"_id": self.id_fornecedor},
+            {"$set": novos_dados}
+        )
 
-        for fornecedor in fornecedores:
-            if fornecedor['id_fornecedor'] == self.id_fornecedor:
-                fornecedor.update(novos_dados)
-                break
-
-        self.salvar_fornecedores(fornecedores)
-        print(f"Fornecedor {self.nome} modificado com sucesso.")
-
+        if resultado.modified_count > 0:
+            print(f"Fornecedor {self.nome} modificado com sucesso.")
+        else:
+            print(f"Nenhuma modificação feita para o fornecedor {self.nome}.")
 
     def remover_fornecedor(self):
-        fornecedores = self.carregar_fornecedores()
-        fornecedores = [f for f in fornecedores if f['id_fornecedor'] != self.id_fornecedor]
-        self.salvar_fornecedores(fornecedores)
-        print(f'Fornecedor "{self.nome}" removido com sucesso.')
-
+        # Remove o fornecedor do MongoDB
+        resultado = Fornecedor.fornecedores_collection.delete_one({"_id": self.id_fornecedor})
+        if resultado.deleted_count > 0:
+            print(f'Fornecedor "{self.nome}" removido com sucesso.')
+        else:
+            print(f"Fornecedor não encontrado.")
 
     @staticmethod
     def remover_formatacao_cnpj(cnpj):
-        return re.sub(r'\D', '', cnpj)  # Remove tudo que não for dígito (0-9)
+        """Remove a formatação do CNPJ, deixando apenas os números."""
+        return re.sub(r'\D', '', cnpj)  # Remove tudo que não for dígito
+
+    @staticmethod
+    def formatar_cnpj(cnpj):
+        """Formata o CNPJ para o padrão xx.xxx.xxx/xxxx-xx."""
+        cnpj = Fornecedor.remover_formatacao_cnpj(cnpj)
+        return f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}"
 
     @staticmethod
     def validar_cnpj(cnpj):
+        """Valida o CNPJ utilizando os cálculos de dígito verificador."""
         cnpj = Fornecedor.remover_formatacao_cnpj(cnpj)
-        
+
         if len(cnpj) != 14:
             return False
 
         multiplicadores_1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
         multiplicadores_2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
 
+        # Calcula o primeiro dígito verificador
         soma = sum(int(cnpj[i]) * multiplicadores_1[i] for i in range(12))
         digito_1 = 11 - (soma % 11)
-        if digito_1 >= 10:
-            digito_1 = 0
+        digito_1 = 0 if digito_1 >= 10 else digito_1
 
+        # Calcula o segundo dígito verificador
         soma = sum(int(cnpj[i]) * multiplicadores_2[i] for i in range(13))
         digito_2 = 11 - (soma % 11)
-        if digito_2 >= 10:
-            digito_2 = 0
+        digito_2 = 0 if digito_2 >= 10 else digito_2
 
+        # Verifica se os dígitos calculados conferem com os fornecidos
         return cnpj[-2:] == f'{digito_1}{digito_2}'
 
     @classmethod
     def buscar_fornecedor(cls, busca):
-        fornecedores = cls.carregar_fornecedores()
-
+        """Busca um fornecedor por CNPJ ou nome."""
         fornecedor_atual = None
 
-        # Se 'busca' for um número inteiro, trata como ID de fornecedor
-        if isinstance(busca, int):
-            fornecedor_atual = next((f for f in fornecedores if f['id_fornecedor'] == busca), None)
+        # Remove espaços em branco e converte para minúsculas
+        #busca = busca.strip().lower()
+
+        try:
+            # Tenta converter para inteiro (CNPJ sem formatação)
+            busca_cnpj = int(busca)
+            fornecedor_atual = cls.fornecedores_collection.find_one({"cnpj": busca_cnpj})
+        except ValueError:
+            # Se não for um inteiro, pode ser CNPJ com formatação ou nome
+            busca_cnpj = cls.remover_formatacao_cnpj(busca)
+            fornecedor_atual = cls.fornecedores_collection.find_one({"cnpj": busca_cnpj})
+
+            # Se ainda não encontrou, busca por nome
+            if not fornecedor_atual:
+                fornecedor_atual = cls.fornecedores_collection.find_one({"nome": busca})
+
+        if fornecedor_atual:
+            return fornecedor_atual
         else:
-            # Se 'busca' for uma string, verifica se é um número ou um CNPJ sem formatação
-            if busca.isdigit():
-                # Tenta encontrar o fornecedor pelo CNPJ
-                busca_cnpj = cls.remover_formatacao_cnpj(busca)
-                fornecedor_atual = next((f for f in fornecedores if cls.remover_formatacao_cnpj(f['cnpj']) == busca_cnpj), None)
-
-            # Se o formato é de CNPJ (contém pontos, barras ou traços), tenta buscar por CNPJ
-            elif any(char in busca for char in ['.', '/', '-']):
-                busca_cnpj = cls.remover_formatacao_cnpj(busca)
-                fornecedor_atual = next((f for f in fornecedores if cls.remover_formatacao_cnpj(f['cnpj']) == busca_cnpj), None)
-
-            # Caso contrário, tenta buscar por nome
-            else:
-                fornecedor_atual = next((f for f in fornecedores if f['nome'].lower() == busca.lower()), None)
-
-        if fornecedor_atual is None:
             print("Fornecedor não encontrado.")
-        return fornecedor_atual
-
-
+            return None
+    
     @classmethod
-    def salvar_fornecedores(cls, fornecedores):
-        with open(cls.arquivo_json, 'w', encoding="utf-8") as f:
-            json.dump(fornecedores, f, indent=4)
+    def buscar_todos_fornecedores(cls):
+        """Busca todos os fornecedores no MongoDB."""
+        return cls.fornecedores_collection.find()
+    
+    @classmethod
+    def buscar_ultimo_fornecedor(cls):
+        """Busca o último fornecedor adicionado."""
+        return cls.fornecedores_collection.find_one(sort=[('_id', -1)])
 
-    def to_dict(self):
-        """Converte o objeto Fornecedor para um dicionário."""
-        return {
-            'nome': self.nome,
-            'cnpj': self.cnpj,
-            'endereco': self.endereco,
-            'telefone': self.telefone,
-            'email': self.email,
-            'nome_representante': self.nome_representante,
-            'id_fornecedor': self.id_fornecedor
-        }
+    # def to_dict(self):
+    #     """Converte o objeto Fornecedor para um dicionário."""
+    #     return {
+    #         'nome': self.nome,
+    #         'cnpj': self.cnpj,
+    #         'endereco': self.endereco,
+    #         'telefone': self.telefone,
+    #         'email': self.email,
+    #         'nome_representante': self.nome_representante,
+    #         'id_fornecedor': self.id_fornecedor
+    #     }

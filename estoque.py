@@ -21,8 +21,7 @@ def adicionar_produto_estoque(produto):
     produto_dict = vars(produto)
     produto_dict['codigo'] = codigo_unico
 
-    # Converte o objeto fornecedor para um dicionário
-    produto_dict['fornecedor'] = produto.fornecedor.to_dict()
+    produto_dict['fornecedor'] = produto.fornecedor
 
     # Insere o produto no MongoDB
     collection.insert_one(produto_dict)
@@ -90,7 +89,7 @@ def get_produto(codigo):
             item['quantidade'],
             item['preço'],
             item['descricao'],
-            item['fornecedor'],  # Lembrar de carregar o fornecedor correto
+            item['fornecedor']['nome'],  # Lembrar de carregar o fornecedor correto
             *valores_adicionais
         )
         produto.codigo = item['codigo']

@@ -10,10 +10,7 @@ class Produto:
         self.fornecedor = fornecedor  # Fornecedor agora é um atributo da classe Produto
 
     def adicionar_produto(self):
-        # Aqui, você pode adicionar o produto ao estoque ou banco de dados
-        print(f"Produto {self.nome} com fornecedor {self.fornecedor.nome} foi adicionado.")
-    
-
+        adicionar_produto_estoque(self)
 
     def adicionar_quantidade(self):
         adicionar_quantidade_estoque(self.codigo)
@@ -42,11 +39,11 @@ class Produto:
     def alterar_descrição(self, descricao):
         alterar_descrição_estoque(self.codigo, descricao)
         
-    def to_dict(self):
-        # Converte o objeto Produto em um dicionário, incluindo o fornecedor como um dicionário
-        produto_dict = vars(self).copy()  # Copia todos os atributos do produto
-        produto_dict['fornecedor'] = vars(self.fornecedor)  # Converte o objeto fornecedor em dicionário
-        return produto_dict
+    # def to_dict(self):
+    #     # Converte o objeto Produto em um dicionário, incluindo o fornecedor como um dicionário
+    #     produto_dict = vars(self).copy()  # Copia todos os atributos do produto
+    #     produto_dict['fornecedor'] = vars(self.fornecedor)  # Converte o objeto fornecedor em dicionário
+    #     return produto_dict
 
     
 

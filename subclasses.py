@@ -1,24 +1,12 @@
 import json
 import produto
+from categoria import Categoria
 
 def criar_subclasse(nome_categoria):
-    # Carregar categorias do arquivo JSON
-    try:
-        with open('categorias.json', 'r') as f:
-            categorias = json.load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError('O arquivo categorias.json não foi encontrado.')
-    except json.JSONDecodeError:
-        raise ValueError('Erro ao decodificar o arquivo JSON. Verifique o formato do arquivo.')
-
-    # Encontrar a categoria correspondente
-    categoria = next((cat for cat in categorias if cat['nome_categoria'] == nome_categoria), None)
-    
-    if categoria is None:
-        raise ValueError(f'Categoria "{nome_categoria}" não encontrada.')
+    categoria = Categoria.get_categoria_por_nome(nome_categoria)
 
     # Atributos adicionais da categoria
-    atributos_adicionais = categoria.get('atributos_adicionais', [])
+    atributos_adicionais = categoria.atributos_adicionais
     
     # Cria o dicionário de atributos da nova classe
     class_dict = {'__module__': __name__}

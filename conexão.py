@@ -3,7 +3,7 @@ from pymongo import MongoClient
 # Configurações do MongoDB
 host = "localhost"  # Host do MongoDB
 port = 27017  # Porta do MongoDB
-DATABASE_NAME = "todolist"  # Nome do banco de dados
+DATABASE_NAME = "Varejo"  # Nome do banco de dados
 
 # Conectar ao MongoDB
 client = MongoClient(host, port)

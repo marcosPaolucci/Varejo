@@ -51,15 +51,16 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
 
     print("Venda Registrada com sucesso! ")
     # Retorna um dicionário com os dados da venda
-    return {
+    nota_fiscal = {
         "CPFcliente": CPFcliente,
         "itens": itens_venda,
         "total": total
     }
+    return nota_fiscal
 
 # Exemplo de uso:
 #venda = Registrar_Venda("12345678900", [1, 2], [1, 1])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
-venda = Registrar_Venda("12345678900", [2], [2], [2,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
+venda = Registrar_Venda("12345678900", [3], [2], [2,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
 print(venda["total"])  # Imprime o total da venda
 print(venda["itens"])
 print(venda["CPFcliente"])

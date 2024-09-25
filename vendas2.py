@@ -1,4 +1,8 @@
 from estoque import get_produto
+from conexão import get_collection
+COLLECTION_NAME = "Vendas"
+collection = get_collection(COLLECTION_NAME)
+from datetime import datetime
 
 def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
     # Inicializa o total
@@ -43,12 +47,13 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
     nota_fiscal = {
         "CPFcliente": CPFcliente,
         "itens": itens_venda,
-        "total": total
+        "total": total,
+        "data_criacao": datetime.now()  
     }
-    return nota_fiscal
+    result = collection.insert_one(nota_fiscal)
+    print(f'Venda registrada com ID: {result.inserted_id}')
+    return 
 
-venda = Registrar_Venda("12345678900", [1], [2], [1,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
-print(venda["total"])  # Imprime o total da venda
-print(venda["itens"])
-print(venda["CPFcliente"])
+#venda = Registrar_Venda("12345678900", [1], [2], [1,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
+print(list(collection.find({  "itens" : { "$elemMatch" : { "nome": "oculos" } } })) )
 

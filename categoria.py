@@ -69,4 +69,9 @@ class Categoria:
                 print(f"{idx}. {categoria['nome_categoria']}")
         else:
             print("Nenhuma categoria encontrada.")
+    
+    @classmethod
+    def buscar_todas_categorias(cls):
+        return collection.find()
+    
 

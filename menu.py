@@ -20,11 +20,17 @@ def adicionar_categoria():
 
 def criar_produto():
     Categoria.exibir_categorias_existentes()
-    nome_categoria = input("Digite o nome da categoria do produto que será criado: ")
-    Subclasse = criar_subclasse(nome_categoria)
+    categorias = list(Categoria.buscar_todas_categorias())
+    if not categorias:
+        print("Crie uma categoria para adicionar ao produto!")
+        return
 
-    if Subclasse:
-        categoria = Categoria.get_categoria_por_nome(nome_categoria)
+    nome_categoria = input("Digite o nome da categoria do produto que será criado: ")
+    categoria = Categoria.get_categoria_por_nome(nome_categoria)
+
+    if categoria:
+        Subclasse = criar_subclasse(nome_categoria)
+        #categoria = Categoria.get_categoria_por_nome(nome_categoria)
         atributos_adicionais = []
         nome_produto = input("Digite o nome do produto: ")
         preco = float(input("Digite o preço do produto: "))
@@ -40,14 +46,20 @@ def criar_produto():
 
         # Exibir fornecedores existentes
         Fornecedor.exibir_fornecedores_existentes()
-
-        busca_fornecedor = input("Digite o nome ou cnpj do fornecedor para associar ao produto: ")
-        fornecedor_selecionado = Fornecedor.buscar_fornecedor(busca_fornecedor)
-
-        if fornecedor_selecionado is None:
+        fornecedores = list(Fornecedor.buscar_todos_fornecedores())
+        if not fornecedores:
             print("\nFornecedor não encontrado. Vamos cadastrar um novo fornecedor.")
             adicionar_fornecedor()
             fornecedor_selecionado = Fornecedor.buscar_ultimo_fornecedor()
+
+        else:
+            busca_fornecedor = input("Digite o nome ou cnpj do fornecedor para associar ao produto: ")
+            fornecedor_selecionado = Fornecedor.buscar_fornecedor(busca_fornecedor)
+
+            if fornecedor_selecionado is None:
+                print("\nFornecedor não encontrado. Vamos cadastrar um novo fornecedor.")
+                adicionar_fornecedor()
+                fornecedor_selecionado = Fornecedor.buscar_ultimo_fornecedor()
 
         produto = Subclasse(nome_produto, quantidade, preco, descricao, fornecedor_selecionado["nome"], *atributos_adicionais)
         produto.adicionar_produto()
@@ -165,7 +177,7 @@ def exibir_fornecedores():
     Fornecedor.exibir_fornecedores_existentes()
 
 def modificar_fornecedor():
-    fornecedores = Fornecedor.buscar_todos_fornecedores()
+    fornecedores = list(Fornecedor.buscar_todos_fornecedores())
     if not fornecedores:
         print("\nNenhum fornecedor cadastrado!")
         return
@@ -188,7 +200,7 @@ def modificar_fornecedor():
 
     while True:
         # Exibir os dados atuais do fornecedor
-        print(f"\nDados do Fornecedor (ID: {fornecedor_atual['id_fornecedor']}):")
+        print(f"\nDados do Fornecedor (ID: {fornecedor_atual['_id']}):")
         print(f"1. Nome: {fornecedor_atual['nome']}")
         print(f"2. CNPJ: {fornecedor_atual['cnpj']}")
         print(f"3. Endereço: {fornecedor_atual['endereco']}")
@@ -219,25 +231,15 @@ def modificar_fornecedor():
             print("Opção inválida, tente novamente.")
             continue
 
-        # Criar uma instância de Fornecedor com os dados atuais
-        fornecedor = Fornecedor(
-            fornecedor_atual['nome'],
-            fornecedor_atual['cnpj'],
-            fornecedor_atual['endereco'],
-            fornecedor_atual['telefone'],
-            fornecedor_atual['email'],
-            fornecedor_atual['nome_representante'],
-            id_fornecedor=fornecedor_atual['id_fornecedor']
-        )
-
+        fornecedor_atual_id = fornecedor_atual['_id']
+        print(fornecedor_atual_id)
+        print(novos_dados)
         # Chama a função para modificar e salvar
-        fornecedor.modificar_fornecedor(novos_dados)
+        Fornecedor.modificar_fornecedor(fornecedor_atual_id, novos_dados)
         break
 
-
-
 def remover_fornecedor():
-    fornecedores = Fornecedor.buscar_todos_fornecedores()
+    fornecedores = list(Fornecedor.buscar_todos_fornecedores())
     if not fornecedores:
         print("\nNenhum fornecedor cadastrado!")
         return
@@ -257,18 +259,9 @@ def remover_fornecedor():
         return
 
     confirmacao = input(f"Tem certeza que deseja remover o fornecedor '{fornecedor_atual['nome']}'? (s/n): ")
-    
+    id_fornecedor = fornecedor_atual['_id']
     if confirmacao.lower() == 's':
-        fornecedor_obj = Fornecedor(
-            fornecedor_atual['nome'],
-            fornecedor_atual['cnpj'],
-            fornecedor_atual['endereco'],
-            fornecedor_atual['telefone'],
-            fornecedor_atual['email'],
-            fornecedor_atual['nome_representante'],
-            id_fornecedor=fornecedor_atual['id_fornecedor']
-        )
-        fornecedor_obj.remover_fornecedor()
+        Fornecedor.remover_fornecedor(id_fornecedor)
     else:
         print("Remoção cancelada.")
 

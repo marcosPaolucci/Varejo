@@ -89,7 +89,7 @@ def get_produto(codigo):
             item['quantidade'],
             item['preço'],
             item['descricao'],
-            item['fornecedor']['nome'],  # Lembrar de carregar o fornecedor correto
+            item['fornecedor'],  # Lembrar de carregar o fornecedor correto
             *valores_adicionais
         )
         produto.codigo = item['codigo']

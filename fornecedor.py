@@ -56,23 +56,25 @@ class Fornecedor:
         else:
             print("\nNenhum fornecedor cadastrado!")
 
-    def modificar_fornecedor(self, novos_dados):
+    @classmethod
+    def modificar_fornecedor(cls, id_recebido, novos_dados):
         # Atualiza os dados do fornecedor no MongoDB
         resultado = Fornecedor.fornecedores_collection.update_one(
-            {"_id": self.id_fornecedor},
+            {"_id": id_recebido},
             {"$set": novos_dados}
         )
 
         if resultado.modified_count > 0:
-            print(f"Fornecedor {self.nome} modificado com sucesso.")
+            print(f"Fornecedor código {id_recebido} modificado com sucesso.")
         else:
-            print(f"Nenhuma modificação feita para o fornecedor {self.nome}.")
+            print(f"Nenhuma modificação feita para o fornecedor {id_recebido}.")
 
-    def remover_fornecedor(self):
+    @classmethod
+    def remover_fornecedor(cls, id_recebido):
         # Remove o fornecedor do MongoDB
-        resultado = Fornecedor.fornecedores_collection.delete_one({"_id": self.id_fornecedor})
+        resultado = Fornecedor.fornecedores_collection.delete_one({"_id": id_recebido})
         if resultado.deleted_count > 0:
-            print(f'Fornecedor "{self.nome}" removido com sucesso.')
+            print(f'Fornecedor de cóidigo {id_recebido} removido com sucesso.')
         else:
             print(f"Fornecedor não encontrado.")
 

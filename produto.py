@@ -15,8 +15,8 @@ class Produto:
     def adicionar_quantidade(self):
         adicionar_quantidade_estoque(self.codigo)
         
-    def remover_quantidade(self):
-        remover_quantidade_estoque(self.codigo)
+    def remover_quantidade(self, quantidade):
+        remover_quantidade_estoque(self.codigo, quantidade)
         self.alerta_estoque_baixo()
 
     def atualizar_quantidade(self, num):

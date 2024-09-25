@@ -35,13 +35,12 @@ def adicionar_quantidade_estoque(codigo):
     )
     print(f"Quantidade do produto de código {codigo} aumentada em 1.")
 
-def remover_quantidade_estoque(codigo):
+def remover_quantidade_estoque(codigo, quantidade):
 
     collection.update_one(
         {'codigo': codigo},
-        {'$inc': {'quantidade': -1}}
+        {'$inc': {'quantidade': -(quantidade)}}
     )
-    print(f"Quantidade do produto de código {codigo} reduzida em 1.")
 
 def alterar_quantidade_estoque(codigo, nova_quantidade):
 

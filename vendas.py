@@ -38,8 +38,7 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
     for item in itens_venda:
         produto = get_produto(item["codigo"])
         quantidade = item["quantidade"]
-        for i in range(quantidade):
-            produto.remover_quantidade()  # Atualiza a quantidade diretamente no MongoDB
+        produto.remover_quantidade(quantidade)  # Atualiza a quantidade diretamente no MongoDB
 
     print("Venda registrada com sucesso!")
     
@@ -54,6 +53,6 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
     print(f'Venda registrada com ID: {result.inserted_id}')
     return 
 
-#venda = Registrar_Venda("12345678900", [1], [2], [1,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
-print(list(collection.find({  "itens" : { "$elemMatch" : { "nome": "oculos" } } })) )
+#venda = Registrar_Venda("12345678900", [2], [2], [2,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
+print(list(collection.find({  "itens" : { "$elemMatch" : { "nome": "ronaldo31" } } })) )
 

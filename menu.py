@@ -3,6 +3,7 @@ from categoria import Categoria
 from produto import Produto
 from subclasses import criar_subclasse
 from fornecedor import Fornecedor
+from vendas import Registrar_Venda
 
 def adicionar_categoria():
     nome = input("Digite o nome da categoria: ")
@@ -265,6 +266,67 @@ def remover_fornecedor():
     else:
         print("Remoção cancelada.")
 
+def registrar_venda():
+     # Solicita o CPF do cliente
+    cpf_cliente = input("Digite o CPF do cliente: ")
+    
+    # Inicializa as listas de produtos e quantidades
+    lista_produtos = []
+    lista_quantidades = []
+    
+    while True:
+        # Solicita o código do produto
+        codigo_produto = input("Digite o código do produto (ou 'finalizar' para encerrar, 'sair' para cancelar a venda): ")
+        
+        # Verifica se o usuário quer finalizar ou sair
+        if codigo_produto.lower() == 'sair':
+            print("Venda cancelada. Retornando ao menu principal.")
+            return  # Sai do menu sem registrar a venda
+        
+        if codigo_produto.lower() == 'finalizar':
+            if lista_produtos:
+                break  # Sai do loop para finalizar a venda
+            else:
+                print("Nenhum produto foi adicionado. Venda não pode ser finalizada.")
+                continue
+        
+        codigo_produto = int(codigo_produto)
+        # Verifica se o produto existe no estoque
+        produto = get_produto(codigo_produto)
+        if not produto:
+            print(f"Produto com código {codigo_produto} não encontrado.")
+            continue
+
+        if codigo_produto in lista_produtos:
+            print("Produto já adicionado! Selecione outro produto!")
+            continue
+        
+        # Solicita a quantidade
+        try:
+            quantidade = int(input(f"Digite a quantidade para o produto {produto.nome}: "))
+            if quantidade <= 0:
+                print("Quantidade inválida. Tente novamente.")
+                continue
+        except ValueError:
+            print("Quantidade inválida. Digite um número inteiro.")
+            continue
+        
+        # Adiciona o produto e a quantidade nas listas
+        lista_produtos.append(codigo_produto)
+        lista_quantidades.append(quantidade)
+    
+    # Pergunta se há alguma promoção após o cliente decidir finalizar a compra
+    promocao = input("Há alguma promoção para aplicar? (S/N): ").strip().lower()
+    if promocao == 's':
+        codigo_promocao = input("Digite o código do produto em promoção: ")
+        desconto = float(input("Digite o percentual de desconto (0 a 1, ex: 0.1 para 10%): "))
+        promocao = (codigo_promocao, 1 - desconto)
+    else:
+        promocao = None
+
+    # Chama a função de registro de venda
+    Registrar_Venda(cpf_cliente, lista_produtos, lista_quantidades, promocao)
+
 
 def gerenciar_fornecedores():
     while True:
@@ -302,7 +364,8 @@ def mostrar_menu():
         print("5. Exibir Todas as Categorias")
         print("6. Gerenciar Categoria")
         print("7. Gerenciar Fornecedores")
-        print("8. Sair")
+        print("8. Registrar venda")
+        print("9. Sair")
 
         escolha = input("Escolha uma opção: ")
 
@@ -321,6 +384,8 @@ def mostrar_menu():
         elif escolha == '7':
             gerenciar_fornecedores()
         elif escolha == '8':
+            registrar_venda()
+        elif escolha == '9':
             print("Saindo...")
             break
         else:

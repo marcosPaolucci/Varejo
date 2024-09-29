@@ -1,11 +1,14 @@
 import re
+from bson import ObjectId
+from conexão import get_collection
+from pymongo.errors import PyMongoError  # Importar exceções específicas do pymongo
 
 class Fornecedor:
-    from conexão import get_collection
     COLLECTION_NAME = "Fornecedores"
-    fornecedores_collection = get_collection(COLLECTION_NAME)
 
     def __init__(self, nome, cnpj, endereco, telefone, email, nome_representante, id_fornecedor=None):
+        self.collection = get_collection(self.COLLECTION_NAME)  # Inicializa a coleção no construtor
+
         # Valida o CNPJ
         if not self.validar_cnpj(cnpj):
             raise ValueError(f"CNPJ {cnpj} inválido.")
@@ -21,7 +24,7 @@ class Fornecedor:
 
     def criar_fornecedor(self):
         # Verifica se o CNPJ já está registrado
-        if Fornecedor.fornecedores_collection.find_one({"cnpj": self.cnpj}):
+        if self.collection.find_one({"cnpj": self.cnpj}):
             raise ValueError(f"Fornecedor com CNPJ {self.cnpj} já está cadastrado.")
         
         novo_fornecedor = {
@@ -34,13 +37,17 @@ class Fornecedor:
         }
 
         # Insere o novo fornecedor no MongoDB
-        resultado = Fornecedor.fornecedores_collection.insert_one(novo_fornecedor)
-        self.id_fornecedor = resultado.inserted_id  # O ID é gerado automaticamente pelo MongoDB
-        print(f'Fornecedor "{self.nome}" criado com sucesso.')
+        try:
+            resultado = self.collection.insert_one(novo_fornecedor)
+            self.id_fornecedor = resultado.inserted_id  # O ID é gerado automaticamente pelo MongoDB
+            print(f'Fornecedor "{self.nome}" criado com sucesso.')
+        except PyMongoError as e:
+            print(f"Ocorreu um erro ao criar o fornecedor no MongoDB: {e}")
 
     @classmethod
     def exibir_fornecedores_existentes(cls):
-        fornecedores = cls.fornecedores_collection.find()  # Obtém todos os fornecedores
+        collection = get_collection(cls.COLLECTION_NAME)
+        fornecedores = collection.find()  # Obtém todos os fornecedores
         if fornecedores:
             print("\nFornecedores existentes:")
             for fornecedor in fornecedores:
@@ -58,25 +65,41 @@ class Fornecedor:
 
     @classmethod
     def modificar_fornecedor(cls, id_recebido, novos_dados):
-        # Atualiza os dados do fornecedor no MongoDB
-        resultado = Fornecedor.fornecedores_collection.update_one(
-            {"_id": id_recebido},
-            {"$set": novos_dados}
-        )
+        collection = get_collection(cls.COLLECTION_NAME)
+        # Garante que o ID está no formato ObjectId
+        if isinstance(id_recebido, str):
+            id_recebido = ObjectId(id_recebido)
 
-        if resultado.modified_count > 0:
-            print(f"Fornecedor código {id_recebido} modificado com sucesso.")
-        else:
-            print(f"Nenhuma modificação feita para o fornecedor {id_recebido}.")
+        # Atualiza os dados do fornecedor no MongoDB
+        try:
+            resultado = collection.update_one(
+                {"_id": id_recebido},
+                {"$set": novos_dados}
+            )
+
+            if resultado.modified_count > 0:
+                print(f"Fornecedor código {id_recebido} modificado com sucesso.")
+            else:
+                print(f"Nenhuma modificação feita para o fornecedor {id_recebido}.")
+        except PyMongoError as e:
+            print(f"Ocorreu um erro ao modificar o fornecedor no MongoDB: {e}")
 
     @classmethod
     def remover_fornecedor(cls, id_recebido):
+        collection = get_collection(cls.COLLECTION_NAME)
+        # Garante que o ID está no formato ObjectId
+        if isinstance(id_recebido, str):
+            id_recebido = ObjectId(id_recebido)
+
         # Remove o fornecedor do MongoDB
-        resultado = Fornecedor.fornecedores_collection.delete_one({"_id": id_recebido})
-        if resultado.deleted_count > 0:
-            print(f'Fornecedor de cóidigo {id_recebido} removido com sucesso.')
-        else:
-            print(f"Fornecedor não encontrado.")
+        try:
+            resultado = collection.delete_one({"_id": id_recebido})
+            if resultado.deleted_count > 0:
+                print(f'Fornecedor de código {id_recebido} removido com sucesso.')
+            else:
+                print(f"Fornecedor não encontrado.")
+        except PyMongoError as e:
+            print(f"Ocorreu um erro ao remover o fornecedor no MongoDB: {e}")
 
     @staticmethod
     def remover_formatacao_cnpj(cnpj):
@@ -116,48 +139,41 @@ class Fornecedor:
     @classmethod
     def buscar_fornecedor(cls, busca):
         """Busca um fornecedor por CNPJ ou nome."""
+        collection = get_collection(cls.COLLECTION_NAME)
         fornecedor_atual = None
 
-        # Remove espaços em branco e converte para minúsculas
-        #busca = busca.strip().lower()
+        # Remove espaços em branco
+        busca = busca.strip()
 
         try:
             # Tenta converter para inteiro (CNPJ sem formatação)
             busca_cnpj = int(busca)
-            fornecedor_atual = cls.fornecedores_collection.find_one({"cnpj": busca_cnpj})
+            fornecedor_atual = collection.find_one({"cnpj": busca_cnpj})
         except ValueError:
             # Se não for um inteiro, pode ser CNPJ com formatação ou nome
             busca_cnpj = cls.remover_formatacao_cnpj(busca)
-            fornecedor_atual = cls.fornecedores_collection.find_one({"cnpj": busca_cnpj})
+            fornecedor_atual = collection.find_one({"cnpj": busca_cnpj})
 
-            # Se ainda não encontrou, busca por nome
+            # Se ainda não encontrou, busca por nome insensível a maiúsculas/minúsculas
             if not fornecedor_atual:
-                fornecedor_atual = cls.fornecedores_collection.find_one({"nome": busca})
+                fornecedor_atual = collection.find_one(
+                    {"nome": {"$regex": f"^{busca}$", "$options": "i"}}
+                )
 
         if fornecedor_atual:
             return fornecedor_atual
         else:
             print("Fornecedor não encontrado.")
             return None
-    
+
     @classmethod
     def buscar_todos_fornecedores(cls):
         """Busca todos os fornecedores no MongoDB."""
-        return cls.fornecedores_collection.find()
-    
+        collection = get_collection(cls.COLLECTION_NAME)
+        return collection.find()
+
     @classmethod
     def buscar_ultimo_fornecedor(cls):
         """Busca o último fornecedor adicionado."""
-        return cls.fornecedores_collection.find_one(sort=[('_id', -1)])
-
-    # def to_dict(self):
-    #     """Converte o objeto Fornecedor para um dicionário."""
-    #     return {
-    #         'nome': self.nome,
-    #         'cnpj': self.cnpj,
-    #         'endereco': self.endereco,
-    #         'telefone': self.telefone,
-    #         'email': self.email,
-    #         'nome_representante': self.nome_representante,
-    #         'id_fornecedor': self.id_fornecedor
-    #     }
+        collection = get_collection(cls.COLLECTION_NAME)
+        return collection.find_one(sort=[('_id', -1)])

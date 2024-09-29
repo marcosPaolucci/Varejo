@@ -1,12 +1,13 @@
-from estoque import  exibir_estoque, get_produto
-from categoria import Categoria
-from produto import Produto
-from subclasses import criar_subclasse
+# main.py
 
-from menu import mostrar_menu
+from menu import Menu
+
+def main():
+    """
+    Função principal que inicializa e exibe o menu principal do sistema.
+    """
+    menu = Menu()
+    menu.mostrar_menu()
 
 if __name__ == "__main__":
-    mostrar_menu()
-
-
-
+    main()

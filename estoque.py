@@ -4,29 +4,36 @@ from conexão import get_collection
 COLLECTION_NAME = "Produtos"
 collection = get_collection(COLLECTION_NAME)
 
-
 def gerar_codigo_unico():
+    try:
+        produto_com_maior_codigo = collection.find_one(sort=[('codigo', -1)])
+        if produto_com_maior_codigo:
+            return produto_com_maior_codigo['codigo'] + 1
+        else:
+            return 1  # Se não há produtos, começa com 1
+    except Exception as e:
+        print(f"Ocorreu um erro ao gerar código único: {e}")
+        return None
 
-    produto_com_maior_codigo = collection.find_one(sort=[('codigo', -1)])
-    if produto_com_maior_codigo:
-        return produto_com_maior_codigo['codigo'] + 1
-    else:
-        return 1  # Se não há produtos, começa com 1
-    
 def adicionar_produto_estoque(produto):
-
-    # Gera o código único para o produto
-    codigo_unico = gerar_codigo_unico()
-
-    produto_dict = vars(produto)
-    produto_dict['codigo'] = codigo_unico
-
-    produto_dict['fornecedor'] = produto.fornecedor
-
-    # Insere o produto no MongoDB
-    collection.insert_one(produto_dict)
-    print(f"Produto {produto.nome} adicionado ao estoque com o código {codigo_unico}.")
-
+    try:
+        codigo_unico = gerar_codigo_unico()
+        if codigo_unico is None:
+            raise ValueError("Não foi possível gerar um código único para o produto.")
+        
+        produto.codigo = codigo_unico
+        produto_dict = vars(produto).copy()
+        produto_dict['codigo'] = codigo_unico
+        produto_dict['fornecedor'] = produto.fornecedor.nome  # Armazena apenas o nome do fornecedor
+        produto_dict['categoria'] = produto.categoria  # Adiciona o campo categoria
+        
+        collection.insert_one(produto_dict)
+        print(f"Produto {produto.nome} adicionado ao estoque com o código {codigo_unico}.")
+        return codigo_unico
+    except Exception as e:
+        print(f"Ocorreu um erro ao adicionar o produto ao estoque: {e}")
+        return None
+    
 def adicionar_quantidade_estoque(codigo):
 
     collection.update_one(

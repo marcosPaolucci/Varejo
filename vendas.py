@@ -1,24 +1,24 @@
+# vendas.py
+
 from estoque import get_produto
 from conexão import get_collection
-COLLECTION_NAME = "Vendas"
-collection = get_collection(COLLECTION_NAME)
 from datetime import datetime
+from pymongo.errors import PyMongoError
 
-def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
-    # Inicializa o total
+COLLECTION_NAME = "Vendas"
+
+def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promocao=None):
+    collection = get_collection(COLLECTION_NAME)
     total = 0
     itens_venda = []
 
-    # Percorre os produtos e suas quantidades
     for codigo, quantidade in zip(codigoProdutos, quantidades):
-        produto = get_produto(codigo)  # Busca o produto pelo código diretamente do MongoDB
+        produto = get_produto(codigo)
         if produto:
-            preco = produto.preço  # Obtém o preço do produto
-            if promoção:
-                if codigo == promoção[0]:
-                    preco = preco * promoção[1]
-            quantidade_estoque = produto.quantidade
-            if quantidade_estoque < quantidade:
+            preco = produto.preco
+            if promocao and codigo == promocao[0]:
+                preco *= promocao[1]
+            if produto.quantidade < quantidade:
                 print(f"Quantidade insuficiente no estoque para o produto: {produto.nome}")
                 return
             subtotal = preco * quantidade
@@ -32,27 +32,23 @@ def Registrar_Venda(CPFcliente, codigoProdutos, quantidades, promoção=None):
             })
         else:
             print(f"Produto com código {codigo} não encontrado no estoque.")
-            return 
-    
-    # Atualiza a quantidade de produtos no estoque
+            return
+
     for item in itens_venda:
         produto = get_produto(item["codigo"])
-        quantidade = item["quantidade"]
-        produto.remover_quantidade(quantidade)  # Atualiza a quantidade diretamente no MongoDB
+        produto.remover_quantidade(item["quantidade"])
 
     print("Venda registrada com sucesso!")
-    
-    # Retorna um dicionário com os dados da venda
+
     nota_fiscal = {
         "CPFcliente": CPFcliente,
         "itens": itens_venda,
         "total": total,
-        "data_criacao": datetime.now()  
+        "data_criacao": datetime.now()
     }
-    result = collection.insert_one(nota_fiscal)
-    print(f'Venda registrada com ID: {result.inserted_id}')
-    return 
 
-#venda = Registrar_Venda("12345678900", [2], [2], [2,0.5])  # Código 1 (Geladeira), Código 2 (A Bela Adormecida)
-print(list(collection.find({  "itens" : { "$elemMatch" : { "nome": "ronaldo31" } } })) )
-
+    try:
+        result = collection.insert_one(nota_fiscal)
+        print(f'Venda registrada com ID: {result.inserted_id}')
+    except PyMongoError as e:
+        print(f"Ocorreu um erro ao registrar a venda: {e}")
